@@ -2,7 +2,7 @@
 
 Herramienta de apoyo para la sesión 2 («Retrieval-Augmented Generation») del programa «IA para Alta Dirección y Productividad Ejecutiva» de Next Leap. Enseña a dirigir un proyecto de RAG con prompts Rol · Contexto · Instrucción, sin ser ingeniero.
 
-**URL prevista:** https://next-leap-s-a-s.github.io/prompts-rag-direccion/ (aún sin publicar)
+**Publicado en:** https://next-leap-s-a-s.github.io/prompts-rag-direccion/ 
 
 ## Qué contiene
 
