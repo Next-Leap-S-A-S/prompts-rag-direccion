@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG para Alta Dirección | Next Leap</title>
+<meta name="description" content="Qué es RAG, cómo se prepara y qué decide la dirección. Sesión 2 del programa IA para Alta Dirección y Productividad Ejecutiva.">
+<style>
+{{FONT_CSS}}
+:root{
+  --bg:#ffffff;--bg1:#f6f6f4;--ink:#111114;--ink75:#43444c;--ink60:#5f6069;--line:rgba(0,0,0,.1);
+  --blue:#2563eb;--purple:#9333ea;--pink:#db2777;--dark:#12141c;--dark2:#1d2030;--onDark:#c9cbd6;
+  --grad:linear-gradient(135deg,#2563eb,#9333ea,#db2777);
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme=light]){--bg:#0f1117;--bg1:#161923;--ink:#f1f1ee;--ink75:#c4c6d0;--ink60:#a0a3b0;--line:rgba(255,255,255,.12);--dark:#07080c;--dark2:#12141c}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+.code{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:0 0 14px}
+h1,h2,h3{margin:0;line-height:1.1;letter-spacing:-.02em}
+h2{font-size:clamp(30px,5vw,48px);font-weight:700;margin-bottom:18px}
+h3{font-size:21px;font-weight:600;letter-spacing:-.01em}
+p{margin:0 0 14px}
+.lead{font-size:clamp(18px,2.4vw,22px);color:var(--ink75);max-width:720px}
+section{padding:72px 0}
+.alt{background:var(--bg1)}
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none}
+.brand img{width:27px;height:26px;display:block}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;font-size:15px;padding:11px 20px;border-radius:999px}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.hero{padding:96px 0 80px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-180px;top:-200px;width:620px;height:620px;border-radius:50%;background:var(--grad);opacity:.14;filter:blur(30px)}
+.hero h1{font-size:clamp(40px,8vw,84px);font-weight:700;max-width:900px;margin-bottom:24px}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:26px}
+.alt .card{background:var(--bg)}
+.card .n{font-family:var(--mono);font-size:14px;color:var(--blue);margin-bottom:10px}
+.card p{color:var(--ink60);margin:8px 0 0;font-size:16px}
+.band{background:var(--dark);color:#f5f4ef;text-align:left}
+.band .eyebrow{color:#9db6ff}
+.band h2{font-size:clamp(34px,6vw,72px);max-width:900px}
+.band p{color:var(--onDark);font-size:clamp(18px,2.4vw,24px);max-width:640px}
+.flow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));counter-reset:f}
+.flow li{list-style:none;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px}
+.flow li b{display:block;font-size:18px;margin-bottom:6px}
+.flow li span{color:var(--ink60);font-size:15px}
+.flow li:before{counter-increment:f;content:counter(f);font-family:var(--mono);color:var(--blue);font-size:14px;display:block;margin-bottom:8px}
+.flow li.last{background:var(--dark);color:#f5f4ef;border-color:var(--dark)}
+.flow li.last span{color:var(--onDark)}
+.flow li.last:before{color:#9db6ff}
+.flow{padding:0;margin:28px 0 0}
+.tablewrap{overflow-x:auto;margin-top:24px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:17px}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink60)}
+td:first-child{font-weight:600}
+td.rag{color:var(--blue);font-weight:500}
+.quote{border-left:5px solid var(--pink);padding:6px 0 6px 22px;font-size:clamp(20px,3vw,28px);font-weight:600;letter-spacing:-.01em;margin:28px 0 0;max-width:780px}
+.steps{display:grid;gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:56px 1fr;gap:4px 16px;padding:22px 0;border-bottom:1px solid var(--line)}
+.step .code{color:var(--blue);padding-top:5px}
+.step p{grid-column:2;color:var(--ink60);margin:0}
+.pill{display:inline-block;font-family:var(--mono);font-size:14px;background:rgba(37,99,235,.1);color:var(--blue);padding:5px 14px;border-radius:999px;margin:4px 6px 0 0}
+.big{font-size:clamp(64px,12vw,120px);font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--blue)}
+.split{display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:center}
+.tl{border-top:6px solid var(--blue)}
+.tl.end{border-top-color:var(--pink)}
+.tl .code{color:var(--ink60);margin-bottom:8px;display:block}
+footer{padding:48px 0;border-top:1px solid var(--line);color:var(--ink60);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media(max-width:640px){section{padding:52px 0}.hero{padding:64px 0 56px}nav .btn{padding:9px 14px;font-size:14px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="#top"><img src="{{LOGO_PNG}}" alt=""><span>Next Leap</span></a>
+  <a class="btn" href="biblioteca.html">Biblioteca de prompts</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <p class="eyebrow">IA para Alta Dirección · Sesión 2</p>
+  <h1>Un RAG no es un chatbot con memoria. <span>Es una biblioteca con bibliotecario.</span></h1>
+  <p class="lead">Cómo hacer que la IA responda con los documentos de tu empresa y con la fuente a la vista. Qué es, cómo se prepara y qué decide la dirección.</p>
+  <div class="cta"><a class="btn" href="#que-es">Empezar</a><a class="btn ghost" href="biblioteca.html">Ir a los 30 prompts</a></div>
+</div></header>
+
+<section class="alt" id="limites"><div class="wrap">
+  <p class="eyebrow">El punto de partida</p>
+  <h2>Un modelo de lenguaje solo tiene cuatro límites</h2>
+  <div class="grid g4">
+    <div class="card"><div class="n">01</div><h3>Memoria estática</h3><p>Aprendió hasta una fecha de corte. Lo que pasó después no existe para él.</p></div>
+    <div class="card"><div class="n">02</div><h3>Sin trazabilidad</h3><p>Responde, pero no dice de qué documento sale cada afirmación.</p></div>
+    <div class="card"><div class="n">03</div><h3>Alucinaciones</h3><p>Cuando no sabe, completa con lo que suena plausible. Y lo dice con seguridad.</p></div>
+    <div class="card"><div class="n">04</div><h3>No conoce tu empresa</h3><p>Tus políticas, contratos y procedimientos nunca estuvieron en su entrenamiento.</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="idea"><div class="wrap">
+  <p class="eyebrow">La idea en una imagen</p>
+  <h2>El modelo es un bibliotecario muy culto que nunca ha leído tus documentos.</h2>
+  <p>RAG le abre tu estantería y le exige una cosa: antes de responder, trae el libro y cita la página.</p>
+</div></section>
+
+<section id="que-es"><div class="wrap">
+  <p class="eyebrow">Qué es RAG</p>
+  <h2>Retrieval-Augmented Generation</h2>
+  <p class="lead">Una arquitectura que une un buscador de información con un modelo que redacta, para responder con conocimiento actualizado o propio de tu empresa, que el modelo no trae de fábrica.</p>
+  <ol class="flow">
+    <li><b>Pregunta</b><span>Alguien del equipo escribe qué necesita saber.</span></li>
+    <li><b>Recuperador</b><span>Busca en el índice los pasajes más cercanos al tema.</span></li>
+    <li><b>Fragmentos</b><span>Los pasajes se pegan junto a la pregunta.</span></li>
+    <li><b>Generador</b><span>El modelo redacta usando solo ese material.</span></li>
+    <li class="last"><b>Respuesta</b><span>Texto con la fuente citada, listo para verificar.</span></li>
+  </ol>
+  <div class="tablewrap"><table>
+    <tr><th></th><th>Modelo tradicional</th><th>RAG</th></tr>
+    <tr><td>Conocimiento</td><td>Entrenamiento masivo, memoria estática</td><td class="rag">Consulta externa dinámica</td></tr>
+    <tr><td>Vigencia</td><td>Hasta su fecha de corte</td><td class="rag">Tan actual como tus documentos</td></tr>
+    <tr><td>Fuentes</td><td>No las muestra</td><td class="rag">Trazabilidad documental</td></tr>
+    <tr><td>Errores</td><td>Alucinaciones frecuentes</td><td class="rag">Respuestas soportadas en fuentes</td></tr>
+  </table></div>
+  <p class="quote">RAG reduce el error, no lo elimina. Por eso cada respuesta cita su documento.</p>
+</div></section>
+
+<section class="alt" id="piezas"><div class="wrap">
+  <p class="eyebrow">Las dos piezas</p>
+  <h2>Uno busca y el otro redacta</h2>
+  <div class="grid g2">
+    <div class="card tl"><span class="code">Retriever</span><h3>El recuperador</h3><p>Busca y selecciona los documentos relevantes para la pregunta. Puede usar búsqueda clásica por palabras o búsqueda semántica con vectores, sobre una base indexada de PDF, normas y manuales.</p></div>
+    <div class="card tl end"><span class="code">Generator</span><h3>El generador</h3><p>Es el modelo de lenguaje que redacta la respuesta final. Recibe la pregunta junto con los fragmentos recuperados y los usa como contexto externo.</p></div>
+  </div>
+  <p style="margin-top:22px;color:var(--ink60)">Cuando una respuesta sale mal, pregunta cuál de las dos piezas falló. Si trajo el fragmento equivocado, falló el recuperador o el corpus. Si el fragmento era bueno y la respuesta no, falló el generador.</p>
+</div></section>
+
+<section id="datos"><div class="wrap">
+  <p class="eyebrow">Preparar los datos</p>
+  <h2>Cinco pasos antes de indexar</h2>
+  <div class="steps">
+    <div class="step"><span class="code">01</span><h3>Elegir el corpus</h3><p>Responde qué problema resuelve y qué preguntas debe contestar. Luego elige documentos con relevancia, confiabilidad, granularidad útil y formato accesible. Si el corpus no tiene sentido, el RAG responde mal aunque la técnica sea correcta.</p></div>
+    <div class="step"><span class="code">02</span><h3>Procesar</h3><p>Normalizar idioma y formato, quitar ruido (firmas, numeración, notas) y unificar vocabulario: queja, reclamo, petición y solicitud. Alguien tiene que decidir si son lo mismo.</p></div>
+    <div class="step"><span class="code">03</span><h3>Fragmentar</h3><p>Partir los documentos largos en piezas de 300 a 500 palabras, cada una con sus metadatos.<br><span class="pill">título</span><span class="pill">autor</span><span class="pill">fecha</span><span class="pill">tipo de documento</span></p></div>
+    <div class="step"><span class="code">04</span><h3>Unificar formatos</h3><p>Tablas en .csv, documentos en .pdf pasados a .txt, datos jerárquicos en .json, tablas grandes en .parquet. Los PDF escaneados necesitan OCR: sin él, el sistema no lee nada.</p></div>
+    <div class="step"><span class="code">05</span><h3>Indexar</h3><p>Cada fragmento se convierte en un embedding y se guarda en un índice vectorial: la biblioteca semántica. Encuentra textos parecidos aunque no compartan palabras. Opciones: FAISS (local), Chroma (simple), Pinecone, Weaviate o Milvus (nube).</p></div>
+  </div>
+</div></section>
+
+<section class="alt" id="decisiones"><div class="wrap">
+  <p class="eyebrow">Lo que decide la dirección</p>
+  <h2>Cinco decisiones que no se delegan</h2>
+  <div class="grid g3">
+    <div class="card"><div class="n">01</div><h3>Qué problema</h3><p>Qué preguntas debe contestar y para quién.</p></div>
+    <div class="card"><div class="n">02</div><h3>Qué documentos</h3><p>Cuáles entran, cuáles no y quién es dueño de cada uno.</p></div>
+    <div class="card"><div class="n">03</div><h3>Dónde viven los datos</h3><p>Local o en la nube, y quién puede verlos.</p></div>
+    <div class="card"><div class="n">04</div><h3>Cómo se mide</h3><p>Qué es una buena respuesta y con qué preguntas de prueba.</p></div>
+    <div class="card"><div class="n">05</div><h3>Quién responde</h3><p>Quién revisa y corrige cuando el sistema se equivoca.</p></div>
+  </div>
+</div></section>
+
+<section id="riesgos"><div class="wrap">
+  <p class="eyebrow">Riesgos y gobernanza</p>
+  <h2>Cuatro riesgos que conviene nombrar desde el inicio</h2>
+  <div class="grid g4">
+    <div class="card"><h3>Fuga de información</h3><p>Documentos confidenciales o con datos personales que no debían entrar al índice.</p></div>
+    <div class="card"><h3>Permisos</h3><p>Alguien recibe en la respuesta un documento al que no tiene acceso.</p></div>
+    <div class="card"><h3>Fuente vencida</h3><p>El sistema cita una política que ya fue reemplazada.</p></div>
+    <div class="card"><h3>Respuesta sin fuente</h3><p>El modelo redacta algo que ningún fragmento respalda.</p></div>
+  </div>
+  <p class="quote">Regla de oro: toda respuesta para uso interno o con clientes cita su documento. Sin cita, no se usa.</p>
+</div></section>
+
+<section class="alt" id="piloto"><div class="wrap">
+  <p class="eyebrow">Cómo empezar</p>
+  <h2>Un piloto de 60 días, con criterio para parar</h2>
+  <div class="grid g3">
+    <div class="card tl"><span class="code">Días 1 a 15</span><h3>Corpus y preguntas</h3><p>Un caso de uso, un área, los documentos vigentes y veinte preguntas de prueba.</p></div>
+    <div class="card tl"><span class="code">Días 16 a 40</span><h3>Construir y medir</h3><p>Indexar, probar con las veinte preguntas y corregir las fuentes que fallan.</p></div>
+    <div class="card tl end"><span class="code">Días 41 a 60</span><h3>Uso real y decisión</h3><p>Un grupo pequeño lo usa. Al final se decide: seguir, ajustar o detener.</p></div>
+  </div>
+  <p style="margin-top:22px;color:var(--ink60)">Antes de empezar, escribe tres métricas y el umbral que obliga a detener el piloto.</p>
+</div></section>
+
+<section class="band" id="practica"><div class="wrap">
+  <p class="eyebrow">Práctica</p>
+  <h2>Treinta prompts para dirigir un proyecto de RAG.</h2>
+  <p>Seis áreas, cinco prompts cada una, con laboratorio y ejercicio. Cambia los campos entre corchetes y copia. Usa siempre información anonimizada.</p>
+  <div class="cta"><a class="btn" style="background:#f5f4ef;color:#12141c" href="biblioteca.html">Abrir la biblioteca</a></div>
+</div></section>
+
+<footer><div class="wrap"><span>Next Leap S.A.S. · IA para Alta Dirección y Productividad Ejecutiva</span><span>Sesión 2 · RAG</span></div></footer>
+</body>
+</html>
